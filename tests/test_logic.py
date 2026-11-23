@@ -5,6 +5,7 @@ import pytest
 
 from pulsewatch.alerts import TelegramNotifier, WebhookNotifier, dispatch, format_message, humanize
 from pulsewatch.checker import CheckResult
+from pulsewatch.db import init_db, make_engine
 from pulsewatch.models import Check, Monitor
 from pulsewatch.schemas import is_private_host
 from pulsewatch.service import StatusChange, is_due, next_status, record_check
@@ -143,3 +144,11 @@ async def test_deleting_monitor_cascades_to_history(session):
     await session.delete(m)
     await session.commit()
     assert await session.scalar(select(func.count()).select_from(Check)) == 0
+
+
+async def test_sqlite_parent_folder_is_created(tmp_path):
+    path = tmp_path / "data" / "pulsewatch.db"
+    engine = make_engine(f"sqlite+aiosqlite:///{path}")
+    await init_db(engine)
+    await engine.dispose()
+    assert path.exists()

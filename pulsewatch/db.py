@@ -1,6 +1,8 @@
 from datetime import UTC, datetime
+from pathlib import Path
 
 from sqlalchemy import event
+from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.pool import StaticPool
@@ -21,6 +23,9 @@ def make_engine(url: str) -> AsyncEngine:
         kwargs["connect_args"] = {"check_same_thread": False}
         if url.rstrip("/").endswith((":memory:", "sqlite+aiosqlite:")):
             kwargs["poolclass"] = StaticPool  # one shared in-memory DB across sessions (tests)
+        database = make_url(url).database
+        if database and database != ":memory:":
+            Path(database).parent.mkdir(parents=True, exist_ok=True)  # SQLite creates the file, not its folder
     engine = create_async_engine(url, **kwargs)
 
     if url.startswith("sqlite"):

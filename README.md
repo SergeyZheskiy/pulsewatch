@@ -3,7 +3,7 @@
 [![CI](https://github.com/SergeyZheskiy/pulsewatch/actions/workflows/ci.yml/badge.svg)](https://github.com/SergeyZheskiy/pulsewatch/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%20|%203.12%20|%203.13-3776ab?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-async-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-42%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-43%20passing-brightgreen)
 
 **Self-hosted uptime monitoring** — a small, readable alternative to UptimeRobot / Statuspage. Pulsewatch probes your sites and APIs on a schedule, keeps history, opens and closes incidents, alerts you in Telegram / Slack / Discord, and publishes a public status page and README badges.
 
@@ -85,7 +85,7 @@ flowchart LR
 ## Testing
 
 ```bash
-pytest -q          # 42 tests, ~1s, no network access
+pytest -q          # 43 tests, ~1s, no network access
 ruff check . && ruff format --check .
 ```
 
